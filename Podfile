@@ -7,7 +7,7 @@ target 'IOSGlobal' do
   pod 'Toast-Swift' ,'~> 5.0.0'
   pod 'GoogleMaps', '4.0.0'
   pod 'GooglePlaces', '4.0.0'
-  
+  pod 'googleapis', :path => '.'
   #RxXXXX
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
