@@ -14,6 +14,8 @@
 		667918DC28D86D86002495CE /* WeatherOfCity.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667918DB28D86D86002495CE /* WeatherOfCity.xib */; };
 		667918DF28D9533A002495CE /* WeatherOfCityHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667918DE28D9533A002495CE /* WeatherOfCityHeader.xib */; };
 		667918E128D956E8002495CE /* WeatherOfCityHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667918E028D956E8002495CE /* WeatherOfCityHeader.swift */; };
+		66CAD5D328D9AA8900EC7512 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5D228D9AA8900EC7512 /* AudioController.swift */; };
+		66CAD5D528D9AAA000EC7512 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */; };
 		B83A253B28C1953A0023D4A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253A28C1953A0023D4A5 /* AppDelegate.swift */; };
 		B83A253D28C1953A0023D4A5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253C28C1953A0023D4A5 /* SceneDelegate.swift */; };
 		B83A253F28C1953A0023D4A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253E28C1953A0023D4A5 /* ViewController.swift */; };
@@ -33,6 +35,9 @@
 		667918DB28D86D86002495CE /* WeatherOfCity.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherOfCity.xib; sourceTree = "<group>"; };
 		667918DE28D9533A002495CE /* WeatherOfCityHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherOfCityHeader.xib; sourceTree = "<group>"; };
 		667918E028D956E8002495CE /* WeatherOfCityHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherOfCityHeader.swift; sourceTree = "<group>"; };
+		66CAD5D228D9AA8900EC7512 /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
+		66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
+		66CAD5D628D9ACF800EC7512 /* IOSGlobal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IOSGlobal-Bridging-Header.h"; sourceTree = "<group>"; };
 		B83A253728C1953A0023D4A5 /* IOSGlobal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSGlobal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83A253A28C1953A0023D4A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B83A253C28C1953A0023D4A5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +101,15 @@
 			path = ListCell;
 			sourceTree = "<group>";
 		};
+		66CAD5D128D9AA7500EC7512 /* SpeechToText */ = {
+			isa = PBXGroup;
+			children = (
+				66CAD5D228D9AA8900EC7512 /* AudioController.swift */,
+				66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */,
+			);
+			path = SpeechToText;
+			sourceTree = "<group>";
+		};
 		B83A252E28C1953A0023D4A5 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +131,7 @@
 		B83A253928C1953A0023D4A5 /* IOSGlobal */ = {
 			isa = PBXGroup;
 			children = (
+				66CAD5D128D9AA7500EC7512 /* SpeechToText */,
 				667918D428D85F12002495CE /* WeatherList */,
 				B83A256A28C5C0A20023D4A5 /* Wather */,
 				B83A253A28C1953A0023D4A5 /* AppDelegate.swift */,
@@ -126,6 +141,7 @@
 				B83A254328C1953C0023D4A5 /* Assets.xcassets */,
 				B83A254528C1953C0023D4A5 /* LaunchScreen.storyboard */,
 				B83A254828C1953C0023D4A5 /* Info.plist */,
+				66CAD5D628D9ACF800EC7512 /* IOSGlobal-Bridging-Header.h */,
 			);
 			path = IOSGlobal;
 			sourceTree = "<group>";
@@ -274,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66CAD5D328D9AA8900EC7512 /* AudioController.swift in Sources */,
 				667918DA28D86CA0002495CE /* WeatherOfCity.swift in Sources */,
 				B83A253F28C1953A0023D4A5 /* ViewController.swift in Sources */,
 				667918E128D956E8002495CE /* WeatherOfCityHeader.swift in Sources */,
@@ -283,6 +300,7 @@
 				667918D628D85F36002495CE /* WeatherListViewController.swift in Sources */,
 				B83A253B28C1953A0023D4A5 /* AppDelegate.swift in Sources */,
 				B83A253D28C1953A0023D4A5 /* SceneDelegate.swift in Sources */,
+				66CAD5D528D9AAA000EC7512 /* SpeechRecognitionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +452,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IOSGlobal/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "앱을 사용하는 동안 위치 정보를 사용합니다";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "앱을 사용하는 동안 음성인식을 위해 마이크를 사용합니다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -464,6 +483,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IOSGlobal/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "앱을 사용하는 동안 위치 정보를 사용합니다";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "앱을 사용하는 동안 음성인식을 위해 마이크를 사용합니다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
