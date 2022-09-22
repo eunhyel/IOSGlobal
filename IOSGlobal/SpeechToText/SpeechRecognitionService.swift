@@ -58,7 +58,14 @@ class SpeechRecognitionService {
             let recognitionConfig = RecognitionConfig()
             recognitionConfig.encoding =  .linear16
             recognitionConfig.sampleRateHertz = Int32(sampleRate)
-            recognitionConfig.languageCode = "ko-KR"
+            
+            var langCode = "en-US"
+            if #available(iOS 16, *) {
+                langCode = Locale(identifier: Locale.preferredLanguages.first!).language.languageCode?.identifier ?? langCode
+            } else {
+                langCode = Locale(identifier: Locale.preferredLanguages.first!).languageCode ?? langCode
+            }
+            recognitionConfig.languageCode = langCode
             recognitionConfig.maxAlternatives = 30
             recognitionConfig.enableWordTimeOffsets = true
             
@@ -100,6 +107,9 @@ class SpeechRecognitionService {
     }
     
     class func stopRecognizing() {
+        guard AudioController.sharedInstance.delegate != nil else {
+            return
+        }
         _ = AudioController.sharedInstance.stop()
         SpeechRecognitionService.sharedInstance.stopStreaming()
     }

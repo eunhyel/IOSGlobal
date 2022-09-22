@@ -11,8 +11,8 @@ import CoreLocation
 import GoogleMaps
 import GooglePlaces
 
-import AVFoundation
-import googleapis
+import RxCocoa
+import RxSwift
 
 class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate {
     
@@ -35,15 +35,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     var gooogleMap : GMSMapView!
     var APIKey = "AIzaSyA3TSL23CF_ymQ1qdDnEspt_frPRkb7xgA"
     
-    var isRecording: Bool = false
-    var audioData: NSMutableData!
-    
     let fetchWeatherData = FetchWeatherData()
+    
+    var sttViewModel = SpeechToTranslateViewModel()
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        AudioController.sharedInstance.delegate = self
         search_TextFiled.placeholder = " 지역(도시)를 검색해주세요"
         search_TextFiled.delegate = self
         
@@ -69,6 +68,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                     marker.snippet = "나" // 마커 터치하면 나오는 말풍선에 표시할 소제목
                     marker.map = gooogleMap // 마커를 표시할 맵
                 }
+        
+        sttViewModelBind()
     }
     
     func fetchData(_ cityName: String) {
@@ -77,9 +78,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             
             guard let weather = weather else {
                 if error != nil {
-                    self.isRecording = true
-                    self.recordAction()
-                    
+                    self.sttViewModel.sttModel.isRecording.accept(true)
                     self.alertError()
                 }
                 return
@@ -112,8 +111,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     func alertError() {
         let alertController = UIAlertController(title: "Error", message: "City not found", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.isRecording = false
-            self.recordAction()
+            self.sttViewModel.sttModel.isRecording.accept(false)
         })
         present(alertController, animated: true, completion: nil)
     }
@@ -121,67 +119,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        fetchData(textField.text ?? "")
+//        fetchData(textField.text ?? "")
+        print("텍스트필드 엔터 누를때",sttViewModel.sttModel.translatedText.value)
+        fetchData(sttViewModel.sttModel.translatedText.value)
         textField.text = ""
+        sttViewModel.sttModel.translatedText.accept("")
         wather_view.isHidden = false
         search_TextFiled.resignFirstResponder()
         return true
     }
-}
-
-extension ViewController: AudioControllerDelegate {
-
-    func recordAction() {
-        if isRecording {
-            let audioSession = AVAudioSession.sharedInstance()
-            try? audioSession.setCategory(.record)
-            audioData = NSMutableData()
-            SpeechRecognitionService.startRecognizing()
-        } else {
-            SpeechRecognitionService.stopRecognizing()
-        }
+    
+    func sttViewModelBind() {
+        sttViewModel.speechText
+            .drive { [weak self] txt in
+                guard let self = self else { return }
+                self.search_TextFiled.text = txt
+            }
+            .disposed(by: disposeBag)
     }
-
-    func processSampleData(_ data: Data) {
-        audioData.append(data)
-        
-        // We recommend sending samples in 100ms chunks
-        let chunkSize : Int /* bytes/chunk */ = Int(0.1 /* seconds/chunk */
-                                                    * Double(16000) /* samples/second */
-                                                    * 2 /* bytes/sample */);
-        
-        if (audioData.length > chunkSize) {
-            SpeechRecognitionService.sharedInstance.streamAudioData(audioData,
-                                                                    completion:
-                                                                        { [weak self] (response, error) in
-                guard let self = self else {
-                    return
-                }
-                
-                if let error = error {
-                    print("오디오 데이터 가공 에러 :: \(error.localizedDescription)")
-                } else if let response = response {
-                    var finished = false
-                    print(response)
-                    for result in response.resultsArray! {
-                        if let result = result as? StreamingRecognitionResult {
-                            if result.isFinal {
-                                let trans = result.alternativesArray[0] as? SpeechRecognitionAlternative
-                                self.search_TextFiled.text = trans?.transcript
-                                finished = true
-                            }
-                        }
-                    }
-                    //                strongSelf.textView.text = response.description
-                    if finished {
-                        // self.stopAudio(self)
-                        self.isRecording = false
-                        self.recordAction()
-                    }
-                }
-            })
-            self.audioData = NSMutableData()
-        }
-    }
-
 }

@@ -16,6 +16,8 @@
 		667918E128D956E8002495CE /* WeatherOfCityHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667918E028D956E8002495CE /* WeatherOfCityHeader.swift */; };
 		66CAD5D328D9AA8900EC7512 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5D228D9AA8900EC7512 /* AudioController.swift */; };
 		66CAD5D528D9AAA000EC7512 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */; };
+		66CAD5DA28DA992500EC7512 /* SpeechToTranslateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5D928DA992500EC7512 /* SpeechToTranslateModel.swift */; };
+		66CAD5E028DADCEE00EC7512 /* SpeechToTranslateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAD5DF28DADCEE00EC7512 /* SpeechToTranslateViewModel.swift */; };
 		B83A253B28C1953A0023D4A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253A28C1953A0023D4A5 /* AppDelegate.swift */; };
 		B83A253D28C1953A0023D4A5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253C28C1953A0023D4A5 /* SceneDelegate.swift */; };
 		B83A253F28C1953A0023D4A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A253E28C1953A0023D4A5 /* ViewController.swift */; };
@@ -38,6 +40,8 @@
 		66CAD5D228D9AA8900EC7512 /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		66CAD5D628D9ACF800EC7512 /* IOSGlobal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IOSGlobal-Bridging-Header.h"; sourceTree = "<group>"; };
+		66CAD5D928DA992500EC7512 /* SpeechToTranslateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTranslateModel.swift; sourceTree = "<group>"; };
+		66CAD5DF28DADCEE00EC7512 /* SpeechToTranslateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTranslateViewModel.swift; sourceTree = "<group>"; };
 		B83A253728C1953A0023D4A5 /* IOSGlobal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSGlobal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83A253A28C1953A0023D4A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B83A253C28C1953A0023D4A5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 			children = (
 				66CAD5D228D9AA8900EC7512 /* AudioController.swift */,
 				66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */,
+				66CAD5D928DA992500EC7512 /* SpeechToTranslateModel.swift */,
+				66CAD5DF28DADCEE00EC7512 /* SpeechToTranslateViewModel.swift */,
 			);
 			path = SpeechToText;
 			sourceTree = "<group>";
@@ -299,7 +305,9 @@
 				B83A256C28C5C0B70023D4A5 /* FetchWeatherData.swift in Sources */,
 				667918D628D85F36002495CE /* WeatherListViewController.swift in Sources */,
 				B83A253B28C1953A0023D4A5 /* AppDelegate.swift in Sources */,
+				66CAD5E028DADCEE00EC7512 /* SpeechToTranslateViewModel.swift in Sources */,
 				B83A253D28C1953A0023D4A5 /* SceneDelegate.swift in Sources */,
+				66CAD5DA28DA992500EC7512 /* SpeechToTranslateModel.swift in Sources */,
 				66CAD5D528D9AAA000EC7512 /* SpeechRecognitionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
