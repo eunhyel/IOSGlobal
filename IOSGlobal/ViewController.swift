@@ -34,7 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     
     var gooogleMap : GMSMapView!
     var APIKey = "AIzaSyA3TSL23CF_ymQ1qdDnEspt_frPRkb7xgA"
-    
+    var weatherInfo : Weather!
     
     let fetchWeatherData = FetchWeatherData()
     
@@ -84,6 +84,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 return
             }
             print(weather)
+            self.weatherInfo = weather
             self.iconImageView.kf.setImage(with: weather.weatherInfo[0].iconURL)
             self.cityNameLabel.text = weather.name
             self.mainDescriptionLabel.text = weather.weatherInfo[0].main
@@ -131,6 +132,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
+        //weatherInfo
         return true
     }
 }
