@@ -12,6 +12,8 @@ import RxSwift
 import RxCocoa
 import Alamofire
 
+
+
 class SpeechToTranslateViewModel {
     
     var sttModel = SpeechToTranslateModel()
@@ -132,7 +134,7 @@ extension SpeechToTranslateViewModel {
                 .responseString { response in
                     switch response.result {
                     case .success(let str):
-                        //print(str)
+                        print(str)
                         do {
                             let decoder = JSONDecoder()
                             let topModel = try decoder.decode(TranslateResponse.self, from: str.data(using: .utf8) ?? Data())
@@ -177,4 +179,67 @@ extension SpeechToTranslateViewModel {
         }
     }
     
+    
+    
+    
+    
+    
+    func transText(text: String, nation: String = "en", complete: ((String) -> Void)!){
+        let url = "https://translation.googleapis.com/language/translate/v2"
+        let parm: Parameters = [
+            "key" : sttModel.translateAPIKey,
+            "q" : text,
+            "target" : nation
+        ]
+        let header: HTTPHeaders = [
+            "X-Ios-Bundle-Identifier" : Bundle.main.bundleIdentifier!
+        ]
+        
+        var text = ""
+        DispatchQueue.global().async {
+            AF.request(url, method: .post, parameters: parm, headers: header)
+                .responseDecodable(of: TransText.self) { response in
+                    switch response.result {
+                    case .success(let data):
+                        print(data.data.translations.first?.translatedText ?? "")
+                        text = data.data.translations.first?.translatedText ?? ""
+                        if let completionCallback = complete {
+                            completionCallback(text)
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        if let completionCallback = complete {
+                            completionCallback(text)
+                        }
+                    }
+                }
+        }
+    }
+}
+
+struct TransText: Decodable {
+    let data: DataInfo
+
+      enum CodingKeys: String, CodingKey {
+        case data = "data"
+      }
+}
+
+struct DataInfo: Decodable {
+    let translations: [Translations]
+    
+    enum CodingKeys: String, CodingKey {
+        case translations = "translations"
+      }
+}
+
+
+struct Translations: Decodable {
+    let translatedText: String
+    let detectedSourceLanguage: String
+    
+    enum CodingKeys: String, CodingKey {
+        case translatedText = "translatedText"
+        case detectedSourceLanguage = "detectedSourceLanguage"
+      }
 }

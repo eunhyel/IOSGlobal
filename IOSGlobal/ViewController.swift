@@ -130,9 +130,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        fetchData(textField.text ?? "")
         print("텍스트필드 엔터 누를때",sttViewModel.sttModel.translatedText.value)
-        fetchData(sttViewModel.sttModel.translatedText.value)
-        textField.text = ""
+        sttViewModel.transText(text: textField.text ?? "", nation: "en", complete: { text in
+            self.fetchData(text)     //번역
+        })
+        //fetchData(sttViewModel.sttModel.translatedText.value)       //음성
         sttViewModel.sttModel.translatedText.accept("")
+        textField.text = ""
         wather_view.isHidden = false
         search_TextFiled.resignFirstResponder()
         return true

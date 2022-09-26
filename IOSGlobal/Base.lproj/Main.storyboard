@@ -157,7 +157,7 @@
                                 </subviews>
                             </stackView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gFh-PE-eIy">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="5" y="0.0" width="370" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="pgo-zT-5pd"/>
                                 </constraints>
@@ -170,7 +170,7 @@
                         <constraints>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="trailing" secondItem="Cuc-nW-Iwn" secondAttribute="trailing" id="Wn7-KX-N7G"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" id="XEC-ba-BbM"/>
-                            <constraint firstItem="gFh-PE-eIy" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" id="dKX-uI-QwM"/>
+                            <constraint firstItem="gFh-PE-eIy" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" constant="5" id="dKX-uI-QwM"/>
                             <constraint firstItem="Cuc-nW-Iwn" firstAttribute="trailing" secondItem="gFh-PE-eIy" secondAttribute="trailing" id="mOf-AR-2Ld"/>
                             <constraint firstItem="Cuc-nW-Iwn" firstAttribute="bottom" secondItem="lbJ-ge-630" secondAttribute="bottom" id="qyy-id-JLa"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="top" secondItem="gFh-PE-eIy" secondAttribute="bottom" id="rsP-2v-EwV"/>
