@@ -21,7 +21,7 @@ struct Weather: Decodable {
     }
 }
 
-public struct WeatherInfo: Decodable {
+struct WeatherInfo: Decodable {
     let id: Int
     let main: String
     let desc: String
@@ -35,7 +35,7 @@ public struct WeatherInfo: Decodable {
         case icon
     }
 }
-public struct TempInfo: Decodable {
+struct TempInfo: Decodable {
     let temp: Float
     let feelsLike: Float
     let tempMin: Float
@@ -49,7 +49,7 @@ public struct TempInfo: Decodable {
     }
 }
 
-public struct CoordInfo: Decodable {
+struct CoordInfo: Decodable {
     let lon: Float
     let lat: Float
     

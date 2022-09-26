@@ -16,9 +16,6 @@ extension WeatherCd {
         return NSFetchRequest<WeatherCd>(entityName: "WeatherCd")
     }
 
-    @NSManaged public var weatherInfoCd: [WeatherInfo]?
-    @NSManaged public var tempInfoCd: TempInfo?
-    @NSManaged public var coordInfoCd: CoordInfo?
     @NSManaged public var name: String?
 
 }

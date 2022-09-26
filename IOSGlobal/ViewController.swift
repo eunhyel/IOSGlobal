@@ -152,6 +152,7 @@ extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
         //weatherInfo
+        print(#function, weatherInfo)
         return true
     }
 }

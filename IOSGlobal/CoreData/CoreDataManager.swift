@@ -66,7 +66,7 @@ class CoreDataManager {
     /// fetch -> delete
     @discardableResult
     func delete(object: NSManagedObject) -> Bool {
-        context.delete(object: object)
+        context.delete(object)
         do {
             try context.save()
             return true
@@ -78,7 +78,7 @@ class CoreDataManager {
     @discardableResult
     func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
         let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
-        let delete = NSBatchDeleteRequest(fetch: request)
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
         do {
             try self.context.execute(delete)
             return true
