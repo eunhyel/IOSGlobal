@@ -14,8 +14,7 @@ struct FetchWeatherData {
     func fetchData(cityName: String, completionHandler: @escaping (Weather?, AFError?) -> Void) {
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(APIKEY)"
         DispatchQueue.global().async {
-            AF
-                .request(url)
+            AF.request(url)
                 .responseDecodable(of: Weather.self) { response in
                     switch response.result {
                     case .success(let data):

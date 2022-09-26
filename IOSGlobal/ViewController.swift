@@ -30,10 +30,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     @IBOutlet weak var wather_view: UIView!
     
     var locationManager = CLLocationManager()
+    var marker = GMSMarker() // 마커 객체 생성
     
     var gooogleMap : GMSMapView!
     var APIKey = "AIzaSyA3TSL23CF_ymQ1qdDnEspt_frPRkb7xgA"
-    
+    var weatherInfo : Weather!
     
     let fetchWeatherData = FetchWeatherData()
     
@@ -41,6 +42,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        fetchData("Gwangju", false)
         search_TextFiled.placeholder = " 지역(도시)를 검색해주세요"
         search_TextFiled.delegate = self
         
@@ -58,17 +60,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                     
                     let camera = GMSCameraPosition(latitude: currentLat, longitude: currentLng, zoom: 17) //현재 위도, 경도로 카메라를 이동, 줌 레벨(확대되는 정도)는 17로 설정
                     gooogleMap = GMSMapView.map(withFrame: self.view.frame, camera: camera) // mapView 객체 생성
+                    gooogleMap.delegate = self
                     googleMap_view.addSubview(gooogleMap) // view에 mapView를 서브뷰로 추가
                     
-                    let marker = GMSMarker() // 마커 객체 생성
+                    
                     marker.position = CLLocationCoordinate2D(latitude: currentLat, longitude: currentLng) // 마커의 위치를 현재 위도, 경도로 설정
                     marker.title = "현재 위치" // 마커 터치하면 나오는 말풍선에 표시할 대제목
                     marker.snippet = "나" // 마커 터치하면 나오는 말풍선에 표시할 소제목
                     marker.map = gooogleMap // 마커를 표시할 맵
+                    
+                    
                 }
     }
     
-    func fetchData(_ cityName: String) {
+    func fetchData(_ cityName: String, _ move: Bool = true) {
         fetchWeatherData.fetchData(cityName: cityName) { [weak self] weather, error in
             guard let self = self else { return }
             
@@ -79,6 +84,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 return
             }
             print(weather)
+            self.weatherInfo = weather
             self.iconImageView.kf.setImage(with: weather.weatherInfo[0].iconURL)
             self.cityNameLabel.text = weather.name
             self.mainDescriptionLabel.text = weather.weatherInfo[0].main
@@ -89,12 +95,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             self.minTemperatureLabel.text = "최저기온:  " + self.kelvinToCelsius(kValue: weather.tempInfo.tempMin) + "℃"
             
 
-
-            let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon))
-            let newCamera = GMSCameraPosition.camera(withTarget: position,
-                                                     zoom: self.gooogleMap.camera.zoom + 1)
-            let update = GMSCameraUpdate.setCamera(newCamera)
-            self.gooogleMap.moveCamera(update)
+            if move {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon))
+                self.marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon)) // 마커의 위치를 현재 위도, 경도로 설정
+                let newCamera = GMSCameraPosition.camera(withTarget: position,
+                                                         zoom: self.gooogleMap.camera.zoom + 1)
+                let update = GMSCameraUpdate.setCamera(newCamera)
+                self.gooogleMap.moveCamera(update)
+            }
         }
     }
     
@@ -104,7 +112,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     }
     
     func alertError() {
-        let alertController = UIAlertController(title: "Error", message: "City not found", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: "찾을 수 없는 지역입니다", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
         })
         present(alertController, animated: true, completion: nil)
@@ -117,6 +125,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         textField.text = ""
         wather_view.isHidden = false
         search_TextFiled.resignFirstResponder()
+        return true
+    }
+}
+
+extension ViewController : GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("마커 위치 리스트에 추가")
+        //weatherInfo
         return true
     }
 }
