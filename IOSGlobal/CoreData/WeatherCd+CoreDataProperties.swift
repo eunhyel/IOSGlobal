@@ -19,12 +19,29 @@ extension WeatherCd {
     @NSManaged public var name: String?
     @NSManaged public var coordInfo: CoordInfoCd?
     @NSManaged public var tempInfo: TempInfoCd?
-    @NSManaged public var weatherInfo: NSSet?
-
+    @NSManaged public var weatherInfo: NSOrderedSet?
 }
 
 // MARK: Generated accessors for weatherInfo
 extension WeatherCd {
+
+    @objc(insertObject:inWeatherInfoAtIndex:)
+    @NSManaged public func insertIntoWeatherInfo(_ value: WeatherInfoCd, at idx: Int)
+
+    @objc(removeObjectFromWeatherInfoAtIndex:)
+    @NSManaged public func removeFromWeatherInfo(at idx: Int)
+
+    @objc(insertWeatherInfo:atIndexes:)
+    @NSManaged public func insertIntoWeatherInfo(_ values: [WeatherInfoCd], at indexes: NSIndexSet)
+
+    @objc(removeWeatherInfoAtIndexes:)
+    @NSManaged public func removeFromWeatherInfo(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInWeatherInfoAtIndex:withObject:)
+    @NSManaged public func replaceWeatherInfo(at idx: Int, with value: WeatherInfoCd)
+
+    @objc(replaceWeatherInfoAtIndexes:withWeatherInfo:)
+    @NSManaged public func replaceWeatherInfo(at indexes: NSIndexSet, with values: [WeatherInfoCd])
 
     @objc(addWeatherInfoObject:)
     @NSManaged public func addToWeatherInfo(_ value: WeatherInfoCd)
@@ -33,10 +50,10 @@ extension WeatherCd {
     @NSManaged public func removeFromWeatherInfo(_ value: WeatherInfoCd)
 
     @objc(addWeatherInfo:)
-    @NSManaged public func addToWeatherInfo(_ values: NSSet)
+    @NSManaged public func addToWeatherInfo(_ values: NSOrderedSet)
 
     @objc(removeWeatherInfo:)
-    @NSManaged public func removeFromWeatherInfo(_ values: NSSet)
+    @NSManaged public func removeFromWeatherInfo(_ values: NSOrderedSet)
 
 }
 

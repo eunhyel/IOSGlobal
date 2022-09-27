@@ -61,6 +61,7 @@ class CoreDataManager {
         
         let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd
         var setWeatherInfoCd = Set<WeatherInfoCd>()
+        
         weather.weatherInfo.forEach { winfo in
             weatherInfoCd.id = Int64(winfo.id)
             weatherInfoCd.main = winfo.main
@@ -68,7 +69,7 @@ class CoreDataManager {
             weatherInfoCd.iconURL = winfo.iconURL
             setWeatherInfoCd.insert(weatherInfoCd)
         }
-//        weatherInfoCd.weatherCd = object as? WeatherCd
+        _ = NSOrderedSet(set: setWeatherInfoCd)
         weatherInfoCd.weatherCd = object as? WeatherCd
 //        (object as? WeatherCd)?.addToWeatherInfo(NSSet(set: setWeatherInfoCd))
         
@@ -101,6 +102,7 @@ class CoreDataManager {
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         do {
             try self.context.execute(delete)
+            try self.context.save()
             return true
         } catch {
             print(error.localizedDescription)

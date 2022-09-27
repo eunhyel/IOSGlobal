@@ -16,7 +16,7 @@
         <attribute name="name" attributeType="String"/>
         <relationship name="coordInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoordInfoCd" inverseName="weatherCd" inverseEntity="CoordInfoCd"/>
         <relationship name="tempInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TempInfoCd" inverseName="weatherCd" inverseEntity="TempInfoCd"/>
-        <relationship name="weatherInfo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherInfoCd" inverseName="weatherCd" inverseEntity="WeatherInfoCd"/>
+        <relationship name="weatherInfo" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WeatherInfoCd" inverseName="weatherCd" inverseEntity="WeatherInfoCd"/>
     </entity>
     <entity name="WeatherInfoCd" representedClassName="WeatherInfoCd" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String"/>
