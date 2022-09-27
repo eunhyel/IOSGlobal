@@ -34,6 +34,13 @@ struct WeatherInfo: Decodable {
         case desc = "description"
         case icon
     }
+    
+    init(id: Int, main: String, desc: String, icon: String) {
+        self.id = id
+        self.main = main
+        self.desc = desc
+        self.icon = icon
+    }
 }
 struct TempInfo: Decodable {
     let temp: Float

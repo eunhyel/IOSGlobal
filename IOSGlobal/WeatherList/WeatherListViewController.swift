@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class WeatherListViewController: UIViewController {
     
@@ -13,8 +14,13 @@ class WeatherListViewController: UIViewController {
     @IBOutlet weak var listTableView: WeatherListTableView!
     var weatherList = [String]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        listTableView.listDataSource = listTableView.getWeathers()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        listTableView.reloadData()
+    }
+    
 }

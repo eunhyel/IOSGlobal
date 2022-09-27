@@ -124,7 +124,10 @@ class AudioController {
     }
     
     func stop() -> OSStatus {
-        return AudioOutputUnitStop(remoteIOUnit!)
+        guard let remoteIOUnit = remoteIOUnit else {
+            return -1
+        }
+        return AudioOutputUnitStop(remoteIOUnit)
     }
 }
 

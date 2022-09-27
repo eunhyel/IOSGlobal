@@ -41,26 +41,45 @@ class CoreDataManager {
     
     @discardableResult
     func insertWeather(weather: Weather) -> Bool {
-        let entity = NSEntityDescription.entity(forEntityName: "WeatherCd", in: context)
+//        let entity = NSEntityDescription.entity(forEntityName: "WeatherCd", in: context)
+//        let object = NSManagedObject(entity: entity, insertInto: context)
+        let object = NSEntityDescription.insertNewObject(forEntityName: "WeatherCd", into: context)
         
-        if let entity = entity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            
-            managedObject.setValue(weather.name, forKey: "name")
-            managedObject.setValue(weather.weatherInfo, forKey: "weatherInfoCd")
-            managedObject.setValue(weather.tempInfo, forKey: "tempInfoCd")
-            managedObject.setValue(weather.coordInfo, forKey: "coordInfoCd")
-            
-            do {
-                try self.context.save()
-                return true
-            } catch {
-                print(error.localizedDescription)
-                return false
-            }
-        } else {
+        object.setValue(weather.name, forKey: "name")
+        
+        let tempInfo = NSEntityDescription.insertNewObject(forEntityName: "TempInfoCd", into: context) as! TempInfoCd
+        tempInfo.temp = weather.tempInfo.temp
+        tempInfo.feelsLike = weather.tempInfo.feelsLike
+        tempInfo.tempMin = weather.tempInfo.tempMin
+        tempInfo.tempMax = weather.tempInfo.tempMax
+        tempInfo.weatherCd = object as? WeatherCd
+        
+        let coordInfo = NSEntityDescription.insertNewObject(forEntityName: "CoordInfoCd", into: context) as! CoordInfoCd
+        coordInfo.lon = weather.coordInfo.lon
+        coordInfo.lat = weather.coordInfo.lat
+        coordInfo.weatherCd = object as? WeatherCd
+        
+        let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd
+        var setWeatherInfoCd = Set<WeatherInfoCd>()
+        weather.weatherInfo.forEach { winfo in
+            weatherInfoCd.id = Int64(winfo.id)
+            weatherInfoCd.main = winfo.main
+            weatherInfoCd.desc = winfo.desc
+            weatherInfoCd.iconURL = winfo.iconURL
+            setWeatherInfoCd.insert(weatherInfoCd)
+        }
+//        weatherInfoCd.weatherCd = object as? WeatherCd
+        weatherInfoCd.weatherCd = object as? WeatherCd
+//        (object as? WeatherCd)?.addToWeatherInfo(NSSet(set: setWeatherInfoCd))
+        
+        do {
+            try context.save()
+            return true
+        } catch {
+            context.rollback()
             return false
         }
+        
     }
     
     /// fetch -> delete
@@ -70,7 +89,8 @@ class CoreDataManager {
         do {
             try context.save()
             return true
-        } catch {
+        } catch let error {
+            print(error.localizedDescription)
             return false
         }
     }
@@ -83,8 +103,17 @@ class CoreDataManager {
             try self.context.execute(delete)
             return true
         } catch {
+            print(error.localizedDescription)
             return false
         }
     }
     
+    func count<T: NSManagedObject>(request: NSFetchRequest<T>) -> Int? {
+        do {
+            let count = try self.context.count(for: request)
+            return count
+        } catch {
+            return nil
+        }
+    }
 }

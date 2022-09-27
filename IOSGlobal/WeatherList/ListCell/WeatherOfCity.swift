@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class WeatherOfCity: UITableViewCell {
     
@@ -33,13 +34,14 @@ class WeatherOfCity: UITableViewCell {
         dBag = DisposeBag()
     }
     
-    func configData() {
-        cityName.text = "레이캬비크"
+    func configData(_ data: Weather) {
+        cityName.text = data.name//"레이캬비크"
         timeDiffer.text = "9시간 늦음"
         ampm.text = "오전"
         clock.text = "5:46"
-        weather.image = UIImage(systemName: "sun.min.fill")//UIImage(named: "")
-        temperature.text = "29℃"
+//        weather.image = UIImage(systemName: "sun.min.fill")//UIImage(named: "")
+        weather.kf.setImage(with: data.weatherInfo[0].iconURL)
+        temperature.text = "\(String(format: "%.0f", data.tempInfo.temp - 273.15))℃"
         
         bind()
     }
