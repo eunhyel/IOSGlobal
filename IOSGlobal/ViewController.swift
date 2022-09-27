@@ -27,6 +27,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     @IBOutlet weak var feelsLikeLabel: UILabel!
     @IBOutlet weak var maxTemperatureLabel: UILabel!
     @IBOutlet weak var minTemperatureLabel: UILabel!
+    @IBOutlet weak var language_button: UIButton!
     
     @IBOutlet weak var wather_view: UIView!
     
@@ -36,7 +37,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     var gooogleMap : GMSMapView!
     var APIKey = "AIzaSyA3TSL23CF_ymQ1qdDnEspt_frPRkb7xgA"
     var weatherInfo : Weather!
-    
+    var nationCode : NationCode = .EN
+
     let fetchWeatherData = FetchWeatherData()
     
     var sttViewModel = SpeechToTranslateViewModel()
@@ -46,7 +48,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         fetchData("Gwangju", false)
-        search_TextFiled.placeholder = " 지역(도시)를 검색해주세요"
+        buttonSet()
+        
         search_TextFiled.delegate = self
         
         locationManager.delegate = self
@@ -78,6 +81,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         sttViewModelBind()
     }
     
+    func buttonSet(){
+        
+        language_button.showsMenuAsPrimaryAction = true
+        
+        let en = UIAction(title: "영어", handler: { _ in self.nationCode = .EN ; self.laungageSet() ; print("영어") })
+        let kr = UIAction(title: "한국어", handler: { _ in self.nationCode = .KR ; self.laungageSet() ; print("한국어") })
+        let cn = UIAction(title: "중국어", handler: { _ in self.nationCode = .CN ; self.laungageSet() ; print("중국어") })
+        let jp = UIAction(title: "일본어", handler: { _ in self.nationCode = .JP ; self.laungageSet() ; print("일본어") })
+        let es = UIAction(title: "스페인어", handler: { _ in self.nationCode = .ES ; self.laungageSet() ; print("스페인어") })
+        let fr = UIAction(title: "불어", handler: { _ in self.nationCode = .FR ; self.laungageSet() ; print("불어") })
+        let tr = UIAction(title: "터키어", handler: { _ in self.nationCode = .TR ; self.laungageSet() ; print("터키어") })
+        let th = UIAction(title: "태국", handler: { _ in self.nationCode = .TH ; self.laungageSet() ; print("태국") })
+        let cancel = UIAction(title: "취소", attributes: .destructive, handler: { _ in print("취소") })
+        let buttonMenu = UIMenu(title: "언어 선택", children: [en,kr, cn, jp, es, fr, tr, th, cancel])
+        language_button.menu = buttonMenu
+    }
+    
+    func laungageSet(){
+        " 지역(도시)를 검색해주세요".transText(nation: self.nationCode.rawValue, complete: { text in self.search_TextFiled.placeholder = text })
+        
+        if let weatherInfo = weatherInfo {
+            weatherInfo.name.transText(nation: self.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
+            weatherInfo.weatherInfo[0].main.transText(nation: self.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
+            weatherInfo.weatherInfo[0].desc.transText(nation: self.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
+            "평균온도".transText(nation: self.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text })
+            "체감온도".transText(nation: self.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text })
+            "최고기온".transText(nation: self.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text })
+            "최저기온".transText(nation: self.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text })
+        }
+        
+        
+    }
+    
     func fetchData(_ cityName: String, _ move: Bool = true) {
         fetchWeatherData.fetchData(cityName: cityName) { [weak self] weather, error in
             guard let self = self else { return }
@@ -90,16 +126,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 return
             }
             print(weather)
+            
             self.weatherInfo = weather
             self.iconImageView.kf.setImage(with: weather.weatherInfo[0].iconURL)
-            self.cityNameLabel.text = weather.name
-            self.mainDescriptionLabel.text = weather.weatherInfo[0].main
-            self.subDescriptionLabel.text = weather.weatherInfo[0].desc
-            self.temperatureLabel.text = "평균온도:  " + self.kelvinToCelsius(kValue: weather.tempInfo.temp) + "℃"
-            self.feelsLikeLabel.text = "체감온도:  " + self.kelvinToCelsius(kValue: weather.tempInfo.feelsLike) + "℃"
-            self.maxTemperatureLabel.text = "최고기온:  " + self.kelvinToCelsius(kValue: weather.tempInfo.tempMax) + "℃"
-            self.minTemperatureLabel.text = "최저기온:  " + self.kelvinToCelsius(kValue: weather.tempInfo.tempMin) + "℃"
-            
+            weather.name.transText(nation: self.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
+            weather.weatherInfo[0].main.transText(nation: self.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
+            weather.weatherInfo[0].desc.transText(nation: self.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
+            "평균온도".transText(nation: self.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text })
+            "체감온도".transText(nation: self.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text })
+            "최고기온".transText(nation: self.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text })
+            "최저기온".transText(nation: self.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text })
 
             if move {
                 let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon))
@@ -130,6 +166,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        fetchData(textField.text ?? "")
         print("텍스트필드 엔터 누를때",sttViewModel.sttModel.translatedText.value)
+        
+        //날씨 API는 영어로 요청해야함
         sttViewModel.transText(text: textField.text ?? "", nation: "en", complete: { text in
             self.fetchData(text)     //번역
         })
