@@ -45,6 +45,7 @@ class SpeechToTranslateViewModel {
             .distinctUntilChanged()
             .bind { [weak self] txt in
                 guard let self = self else { return }
+                if txt == "" { return }
                 self.transText(text: txt)
             }
             .disposed(by: bag)
@@ -124,7 +125,7 @@ extension SpeechToTranslateViewModel {
         let parm: Parameters = [
             "key" : sttModel.translateAPIKey,
             "q" : text,
-            "target" : "en"
+            "target" : "kr"
         ]
         let header: HTTPHeaders = [
             "X-Ios-Bundle-Identifier" : Bundle.main.bundleIdentifier!
@@ -185,6 +186,9 @@ extension SpeechToTranslateViewModel {
     
     
     func transText(text: String, nation: String = "en", complete: ((String) -> Void)!){
+        
+        if text == "" { print("값이 비어 있다")}
+        
         let url = "https://translation.googleapis.com/language/translate/v2"
         let parm: Parameters = [
             "key" : sttModel.translateAPIKey,
@@ -194,52 +198,58 @@ extension SpeechToTranslateViewModel {
         let header: HTTPHeaders = [
             "X-Ios-Bundle-Identifier" : Bundle.main.bundleIdentifier!
         ]
-        
+        print("번역 언어 \(text)")
         var text = ""
-        DispatchQueue.global().async {
-            AF.request(url, method: .post, parameters: parm, headers: header)
-                .responseDecodable(of: TransText.self) { response in
-                    switch response.result {
-                    case .success(let data):
-                        print(data.data.translations.first?.translatedText ?? "")
-                        text = data.data.translations.first?.translatedText ?? ""
-                        if let completionCallback = complete {
-                            completionCallback(text)
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        if let completionCallback = complete {
-                            completionCallback(text)
-                        }
+        AF.request(url, method: .post, parameters: parm, headers: header)
+            .responseDecodable(of: TransText.self) { response in
+                switch response.result {
+                case .success(let data):
+                    print(data.data.translations.first?.translatedText ?? "")
+                    text = data.data.translations.first?.translatedText ?? ""
+                    if let completionCallback = complete {
+                        completionCallback(text)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    if let completionCallback = complete {
+                        completionCallback(text)
                     }
                 }
-        }
+            }
     }
 }
 
-struct TransText: Decodable {
-    let data: DataInfo
 
-      enum CodingKeys: String, CodingKey {
-        case data = "data"
-      }
-}
-
-struct DataInfo: Decodable {
-    let translations: [Translations]
-    
-    enum CodingKeys: String, CodingKey {
-        case translations = "translations"
-      }
-}
-
-
-struct Translations: Decodable {
-    let translatedText: String
-    let detectedSourceLanguage: String
-    
-    enum CodingKeys: String, CodingKey {
-        case translatedText = "translatedText"
-        case detectedSourceLanguage = "detectedSourceLanguage"
-      }
+extension String {
+    func transText(nation: String = "en", complete: ((String) -> Void)!){
+        let sttModel = SpeechToTranslateModel()
+        
+        let url = "https://translation.googleapis.com/language/translate/v2"
+        let parm: Parameters = [
+            "key" : sttModel.translateAPIKey,
+            "q" : self,
+            "target" : nation
+        ]
+        let header: HTTPHeaders = [
+            "X-Ios-Bundle-Identifier" : Bundle.main.bundleIdentifier!
+        ]
+        
+        var text = ""
+        AF.request(url, method: .post, parameters: parm, headers: header)
+            .responseDecodable(of: TransText.self) { response in
+                switch response.result {
+                case .success(let data):
+                    print(data.data.translations.first?.translatedText ?? "")
+                    text = data.data.translations.first?.translatedText ?? ""
+                    if let completionCallback = complete {
+                        completionCallback(text)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    if let completionCallback = complete {
+                        completionCallback(text)
+                    }
+                }
+            }
+    }
 }
