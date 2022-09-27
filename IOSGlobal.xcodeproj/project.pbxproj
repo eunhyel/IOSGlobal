@@ -36,6 +36,7 @@
 		B83A254728C1953C0023D4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B83A254528C1953C0023D4A5 /* LaunchScreen.storyboard */; };
 		B83A256C28C5C0B70023D4A5 /* FetchWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A256B28C5C0B70023D4A5 /* FetchWeatherData.swift */; };
 		B83A256E28C5C0E80023D4A5 /* WeartherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A256D28C5C0E80023D4A5 /* WeartherModel.swift */; };
+		B8CB86A728E2BB4200CE828B /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CB86A628E2BB4200CE828B /* TranslationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		B83A254828C1953C0023D4A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B83A256B28C5C0B70023D4A5 /* FetchWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchWeatherData.swift; path = IOSGlobal/FetchWeatherData.swift; sourceTree = SOURCE_ROOT; };
 		B83A256D28C5C0E80023D4A5 /* WeartherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeartherModel.swift; sourceTree = "<group>"; };
+		B8CB86A628E2BB4200CE828B /* TranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationModel.swift; sourceTree = "<group>"; };
 		E527ED3F74EE1C65E479F98F /* Pods-IOSGlobal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSGlobal.release.xcconfig"; path = "Target Support Files/Pods-IOSGlobal/Pods-IOSGlobal.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +126,7 @@
 				66CAD5D428D9AAA000EC7512 /* SpeechRecognitionService.swift */,
 				66CAD5D928DA992500EC7512 /* SpeechToTranslateModel.swift */,
 				66CAD5DF28DADCEE00EC7512 /* SpeechToTranslateViewModel.swift */,
+				B8CB86A628E2BB4200CE828B /* TranslationModel.swift */,
 			);
 			path = SpeechToText;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				66CAD65628E1728A00EC7512 /* WeatherInfoCd+CoreDataProperties.swift in Sources */,
 				66CAD62628E1364800EC7512 /* CoreDataManager.swift in Sources */,
 				667918E128D956E8002495CE /* WeatherOfCityHeader.swift in Sources */,
+				B8CB86A728E2BB4200CE828B /* TranslationModel.swift in Sources */,
 				66CAD62428E134A700EC7512 /* WeatherCollections.xcdatamodeld in Sources */,
 				B83A256E28C5C0E80023D4A5 /* WeartherModel.swift in Sources */,
 				667918D828D86330002495CE /* WeatherListTableView.swift in Sources */,

@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -62,6 +63,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gFh-PE-eIy">
+                                <rect key="frame" x="5" y="0.0" width="370" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="pgo-zT-5pd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lbJ-ge-630">
                                 <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <subviews>
@@ -156,26 +165,44 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gFh-PE-eIy">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BQH-p8-f84">
+                                <rect key="frame" x="315" y="44" width="50" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="pgo-zT-5pd"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="HxJ-7Y-6jQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="xtS-S8-BaV"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                            </textField>
+                                <menu key="menu" id="AZO-ni-s11">
+                                    <children>
+                                        <command title="영어" id="sw8-8m-8hO"/>
+                                        <command title="한국어" id="zyB-Ry-2jw"/>
+                                        <command title="중국어" id="Uwy-xW-N3S"/>
+                                        <command title="일본어" id="iFj-oZ-y11"/>
+                                        <command title="스페인" id="Tbo-lV-EMX"/>
+                                        <command title="불어" id="Bad-4U-HSj"/>
+                                        <command title="터키" id="lvL-5e-7b1"/>
+                                        <command title="태국" id="4y3-wv-Bm7"/>
+                                    </children>
+                                </menu>
+                                <state key="normal" title="언어">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cuc-nW-Iwn"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="BQH-p8-f84" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Cuc-nW-Iwn" secondAttribute="leading" symbolic="YES" id="3jQ-9b-USD"/>
+                            <constraint firstItem="BQH-p8-f84" firstAttribute="trailing" secondItem="Cuc-nW-Iwn" secondAttribute="trailing" constant="-10" id="9s1-Bc-9gm"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="trailing" secondItem="Cuc-nW-Iwn" secondAttribute="trailing" id="Wn7-KX-N7G"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" id="XEC-ba-BbM"/>
-                            <constraint firstItem="gFh-PE-eIy" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" id="dKX-uI-QwM"/>
+                            <constraint firstItem="gFh-PE-eIy" firstAttribute="leading" secondItem="Cuc-nW-Iwn" secondAttribute="leading" constant="5" id="dKX-uI-QwM"/>
                             <constraint firstItem="Cuc-nW-Iwn" firstAttribute="trailing" secondItem="gFh-PE-eIy" secondAttribute="trailing" id="mOf-AR-2Ld"/>
                             <constraint firstItem="Cuc-nW-Iwn" firstAttribute="bottom" secondItem="lbJ-ge-630" secondAttribute="bottom" id="qyy-id-JLa"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="top" secondItem="gFh-PE-eIy" secondAttribute="bottom" id="rsP-2v-EwV"/>
                             <constraint firstItem="lbJ-ge-630" firstAttribute="top" secondItem="gFh-PE-eIy" secondAttribute="bottom" id="tOD-cQ-gWV"/>
                             <constraint firstItem="gFh-PE-eIy" firstAttribute="top" secondItem="Cuc-nW-Iwn" secondAttribute="top" id="vKn-it-GSf"/>
+                            <constraint firstItem="BQH-p8-f84" firstAttribute="top" secondItem="gFh-PE-eIy" secondAttribute="bottom" id="zi5-sa-5OJ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="지도" image="default_marker.png" selectedImage="default_marker.png" id="OmL-le-Hjt">
@@ -186,6 +213,7 @@
                         <outlet property="feelsLikeLabel" destination="Uvv-gY-Z1V" id="5ka-RN-HRx"/>
                         <outlet property="googleMap_view" destination="4pB-NP-NOa" id="oZf-jQ-rZh"/>
                         <outlet property="iconImageView" destination="QiM-Gw-cCg" id="fG8-US-Qu8"/>
+                        <outlet property="language_button" destination="BQH-p8-f84" id="d8A-FR-5Jt"/>
                         <outlet property="mainDescriptionLabel" destination="nZk-JU-7RK" id="xNC-Kd-hLT"/>
                         <outlet property="maxTemperatureLabel" destination="0li-Ex-0nx" id="Afa-Uh-4on"/>
                         <outlet property="minTemperatureLabel" destination="oLH-wN-O59" id="GZH-gn-f8f"/>
