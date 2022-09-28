@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 class CoreDataManager {
     
@@ -40,7 +41,7 @@ class CoreDataManager {
     
     
     @discardableResult
-    func insertWeather(weather: Weather) -> Bool {
+    func insertWeather(weather: Weather, _ timezoneIdentifier: String? = nil) -> Bool {
 //        let entity = NSEntityDescription.entity(forEntityName: "WeatherCd", in: context)
 //        let object = NSManagedObject(entity: entity, insertInto: context)
         let object = NSEntityDescription.insertNewObject(forEntityName: "WeatherCd", into: context)
@@ -57,6 +58,7 @@ class CoreDataManager {
         let coordInfo = NSEntityDescription.insertNewObject(forEntityName: "CoordInfoCd", into: context) as! CoordInfoCd
         coordInfo.lon = weather.coordInfo.lon
         coordInfo.lat = weather.coordInfo.lat
+        coordInfo.timezone = timezoneIdentifier
         coordInfo.weatherCd = object as? WeatherCd
         
         let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd

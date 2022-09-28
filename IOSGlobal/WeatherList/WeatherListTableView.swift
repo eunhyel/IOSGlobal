@@ -21,7 +21,6 @@ class WeatherListTableView: UITableView {
         self.dataSource = self
         initTableView()
         let fetchAllResult = getWeathers()
-        print("root0 === \(fetchAllResult)")
     }
     
     override func reloadData() {
@@ -86,7 +85,7 @@ extension WeatherListTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let myCityCell = tableView.dequeueReusableCell(withIdentifier: WeatherOfCity.identifier, for: indexPath) as? WeatherOfCity {
-            myCityCell.configData(listDataSource[indexPath.row])
+            myCityCell.configData(list[indexPath.row])
             return myCityCell
         }
         return UITableViewCell()

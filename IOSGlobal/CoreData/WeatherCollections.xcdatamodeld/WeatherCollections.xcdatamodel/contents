@@ -3,6 +3,7 @@
     <entity name="CoordInfoCd" representedClassName="CoordInfoCd" syncable="YES">
         <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
         <relationship name="weatherCd" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherCd" inverseName="coordInfo" inverseEntity="WeatherCd"/>
     </entity>
     <entity name="TempInfoCd" representedClassName="TempInfoCd" syncable="YES">

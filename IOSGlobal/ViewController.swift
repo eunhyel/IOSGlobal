@@ -192,34 +192,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
-        //weatherInfo
-//        sttViewModel.sttModel.weatherCityForList.append(weatherInfo)
-        CoreDataManager.shared.insertWeather(weather: weatherInfo)
-        let location = CLLocation(latitude: CLLocationDegrees(weatherInfo.coordInfo.lat), longitude: CLLocationDegrees(weatherInfo.coordInfo.lon))
-        let geoCoder = CLGeocoder()
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, err) in
-            if let placemark = placemarks?.first {
-                print(#function, #line, placemark.timeZone!)
-//                print(#function, #line, placemark.country!)
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.timeZone = placemark.timeZone!
-                dateFormatter.dateFormat = "yyyy-MM-dd a hh:mm"
-                let df = dateFormatter.string(from: Date())
-                print(#function, #line, df)
+        getTimeZoneFromCoord(coord: weatherInfo.coordInfo) { mark in
+            if let mark = mark {
+                CoreDataManager.shared.insertWeather(weather: self.weatherInfo, mark.timeZone?.identifier)
             }
         }
-//        let today = Date()
-//        let timezone = TimeZone.autoupdatingCurrent
-//        print(#function, #line, timezone.description)
-//        func localizedRepresentation() -> String {
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.timeZone = timezone
-//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-//            return dateFormatter.string(from: today)
-//        }
-//        let localizedDate = localizedRepresentation()
-//        print(#function, #line, localizedDate)
         return true
+    }
+    
+    func getTimeZoneFromCoord(coord: CoordInfo, completionHandler: @escaping (CLPlacemark?) -> Void) {
+        let location = CLLocation(latitude: CLLocationDegrees(coord.lat), longitude: CLLocationDegrees(coord.lon))
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let placemark = placemarks?.first {
+                completionHandler(placemark)
+            } else if error != nil {
+                completionHandler(nil)
+            }
+        }
     }
 }

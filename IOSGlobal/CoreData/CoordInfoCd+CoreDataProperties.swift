@@ -2,7 +2,7 @@
 //  CoordInfoCd+CoreDataProperties.swift
 //  IOSGlobal
 //
-//  Created by root0 on 2022/09/27.
+//  Created by root0 on 2022/09/28.
 //
 //
 
@@ -18,6 +18,7 @@ extension CoordInfoCd {
 
     @NSManaged public var lat: Float
     @NSManaged public var lon: Float
+    @NSManaged public var timezone: String?
     @NSManaged public var weatherCd: WeatherCd?
 
 }
