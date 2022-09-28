@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import CoreLocation
 
 struct FetchWeatherData {
     private let APIKEY = "544c62d89118e488cbd1925dbdf900df"
@@ -28,6 +29,18 @@ struct FetchWeatherData {
                         print(error.localizedDescription, "000")
                     }
                 }
+        }
+    }
+    
+    func getTimeZoneFromCoord(coord: CoordInfo, completionHandler: @escaping (CLPlacemark?) -> Void) {
+        let location = CLLocation(latitude: CLLocationDegrees(coord.lat), longitude: CLLocationDegrees(coord.lon))
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let placemark = placemarks?.first {
+                completionHandler(placemark)
+            } else if error != nil {
+                completionHandler(nil)
+            }
         }
     }
 }

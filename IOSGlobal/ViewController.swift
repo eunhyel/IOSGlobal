@@ -206,24 +206,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
-        getTimeZoneFromCoord(coord: weatherInfo.coordInfo) { mark in
+        fetchWeatherData.getTimeZoneFromCoord(coord: weatherInfo.coordInfo) { mark in
             if let mark = mark {
-                CoreDataManager.shared.insertWeather(weather: self.weatherInfo, mark.timeZone?.identifier)
+                CoreDataManager.shared.insertWeather(weather: self.weatherInfo, mark.timeZone?.abbreviation())
                 print(#function, #line, mark.timeZone?.identifier)
+                print(#function, #line, mark.timeZone?.abbreviation())
             }
         }
         return true
     }
     
-    func getTimeZoneFromCoord(coord: CoordInfo, completionHandler: @escaping (CLPlacemark?) -> Void) {
-        let location = CLLocation(latitude: CLLocationDegrees(coord.lat), longitude: CLLocationDegrees(coord.lon))
-        let geoCoder = CLGeocoder()
-        geoCoder.reverseGeocodeLocation(location) { placemarks, error in
-            if let placemark = placemarks?.first {
-                completionHandler(placemark)
-            } else if error != nil {
-                completionHandler(nil)
-            }
-        }
-    }
 }

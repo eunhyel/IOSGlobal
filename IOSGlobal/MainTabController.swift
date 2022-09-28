@@ -22,6 +22,15 @@ class MainTabCOntroller : UITabBarController, UITabBarControllerDelegate {
             
             if let view = viewController as? WeatherListViewController {
                 print("Second tab")
+                view.listTableView.list.forEach { wcd in
+                    FetchWeatherData().fetchData(cityName: wcd.name ?? "") { weather, error in
+                        guard let weather = weather else {
+                            return
+                        }
+                        CoreDataManager.shared.update(object: wcd, weather: weather, wcd.coordInfo?.timezone)
+                    }
+                    
+                }
                 view.listTableView.reloadData()
             }
         }

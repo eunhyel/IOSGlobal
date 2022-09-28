@@ -25,7 +25,7 @@ class WeatherOfCity: UITableViewCell {
     
     lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm:ss"
+        formatter.dateFormat = "a hh:mm"
         return formatter
     }()
     var liveTimer: Timer? = nil
@@ -39,20 +39,20 @@ class WeatherOfCity: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        liveTimer?.invalidate()
         dBag = DisposeBag()
     }
     
     func configData(_ data: WeatherCd) {
-        getTime(cData: data)
+//        getTime(cData: data)
         let data = getWeather(cData: data)
         
         data.name.transText(nation: AppData.nationCode.rawValue, complete: { text in
             self.cityName.text = text
         })//"레이캬비크"
         timeDiffer.text = "9시간 늦음"
-        ampm.text = "오전"
-        self.clock.text = self.formatter.string(from: Date())
-//        weather.image = UIImage(systemName: "sun.min.fill")//UIImage(named: "")
+//        ampm.text = "오전"
+//        self.clock.text = self.formatter.string(from: Date())
         weather.kf.setImage(with: data.weatherInfo[0].iconURL)
         temperature.text = "\(String(format: "%.0f", data.tempInfo.temp - 273.15))℃"
         
@@ -100,15 +100,34 @@ class WeatherOfCity: UITableViewCell {
     }
     
     func getTime(cData: WeatherCd) {
-        if let timezoneIdentifier = cData.coordInfo?.timezone {
+        guard let coordInfo = cData.coordInfo else {
+            return
+        }
+        
+        if let timezoneIdentifier = coordInfo.timezone {
             formatter.timeZone = TimeZone(identifier: timezoneIdentifier)
-            liveTimer = Timer(timeInterval: 1, repeats: true, block: { _ in
-                self.clock.text = self.formatter.string(from: Date())
-            })
-            if liveTimer != nil {
-                RunLoop.current.add(liveTimer!, forMode: .common)
+            
+        } else {
+            FetchWeatherData().getTimeZoneFromCoord(coord: CoordInfo(lon: coordInfo.lon, lat: coordInfo.lat) ) { mark in
+                self.formatter.timeZone = TimeZone(abbreviation: mark?.timeZone?.abbreviation() ?? "")
             }
             
         }
+        liveTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateClockLabel), userInfo: nil, repeats: true)
+        RunLoop.current.add(liveTimer!, forMode: .common)
+        
+        print(
+            formatter.string(from: Date()).components(separatedBy: " ")[0],
+            formatter.string(from: Date()).components(separatedBy: " ")[1]
+        )
+        ampm.text = formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
+        clock.text = formatter.string(from: Date()).components(separatedBy: " ")[1]
+        
+        
+    }
+    
+    @objc func updateClockLabel() {
+        ampm.text = formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
+        clock.text = formatter.string(from: Date()).components(separatedBy: " ")[1]
     }
 }

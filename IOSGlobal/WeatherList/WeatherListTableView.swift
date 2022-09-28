@@ -13,19 +13,17 @@ class WeatherListTableView: UITableView {
     var list: [WeatherCd] = {
         return CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest()) as! [WeatherCd]
     }()
-    var listDataSource: [Weather] = []
+//    var listDataSource: [Weather] = []
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.delegate = self
         self.dataSource = self
         initTableView()
-        let fetchAllResult = getWeathers()
     }
     
     override func reloadData() {
         list = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
-        listDataSource = getWeathers()
         super.reloadData()
     }
     func initTableView() {
@@ -85,6 +83,7 @@ extension WeatherListTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let myCityCell = tableView.dequeueReusableCell(withIdentifier: WeatherOfCity.identifier, for: indexPath) as? WeatherOfCity {
+            myCityCell.getTime(cData: list[indexPath.row])
             myCityCell.configData(list[indexPath.row])
             return myCityCell
         }
