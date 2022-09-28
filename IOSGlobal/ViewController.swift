@@ -37,7 +37,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     var gooogleMap : GMSMapView!
     var APIKey = "AIzaSyA3TSL23CF_ymQ1qdDnEspt_frPRkb7xgA"
     var weatherInfo : Weather!
-    var nationCode : NationCode = .EN
 
     let fetchWeatherData = FetchWeatherData()
     
@@ -48,8 +47,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         fetchData("Gwangju", false)
+        self.tabBarItem.selectedImage = UIImage(named: "map_icon")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        self.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        
         buttonSet()
         
+        laungageSet()
         search_TextFiled.delegate = self
         
         locationManager.delegate = self
@@ -64,7 +67,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                     let currentLat = locationManager.location?.coordinate.latitude ?? 0 //위도
                     let currentLng = locationManager.location?.coordinate.longitude ?? 0 //경도
                     
-                    let camera = GMSCameraPosition(latitude: currentLat, longitude: currentLng, zoom: 17) //현재 위도, 경도로 카메라를 이동, 줌 레벨(확대되는 정도)는 17로 설정
+                    let camera = GMSCameraPosition(latitude: currentLat, longitude: currentLng, zoom: 14) //현재 위도, 경도로 카메라를 이동, 줌 레벨(확대되는 정도)는 17로 설정
                     gooogleMap = GMSMapView.map(withFrame: self.view.frame, camera: camera) // mapView 객체 생성
                     gooogleMap.delegate = self
                     googleMap_view.addSubview(gooogleMap) // view에 mapView를 서브뷰로 추가
@@ -85,32 +88,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         
         language_button.showsMenuAsPrimaryAction = true
         
-        let en = UIAction(title: "영어", handler: { _ in self.nationCode = .EN ; self.laungageSet() ; print("영어") })
-        let kr = UIAction(title: "한국어", handler: { _ in self.nationCode = .KR ; self.laungageSet() ; print("한국어") })
-        let cn = UIAction(title: "중국어", handler: { _ in self.nationCode = .CN ; self.laungageSet() ; print("중국어") })
-        let jp = UIAction(title: "일본어", handler: { _ in self.nationCode = .JP ; self.laungageSet() ; print("일본어") })
-        let es = UIAction(title: "스페인어", handler: { _ in self.nationCode = .ES ; self.laungageSet() ; print("스페인어") })
-        let fr = UIAction(title: "불어", handler: { _ in self.nationCode = .FR ; self.laungageSet() ; print("불어") })
-        let tr = UIAction(title: "터키어", handler: { _ in self.nationCode = .TR ; self.laungageSet() ; print("터키어") })
-        let th = UIAction(title: "태국", handler: { _ in self.nationCode = .TH ; self.laungageSet() ; print("태국") })
+        let en = UIAction(title: "영어", handler: { _ in AppData.nationCode = .EN ; self.laungageSet() ; print("영어") })
+        let kr = UIAction(title: "한국어", handler: { _ in AppData.nationCode = .KR ; self.laungageSet() ; print("한국어") })
+        let cn = UIAction(title: "중국어", handler: { _ in AppData.nationCode = .CN ; self.laungageSet() ; print("중국어") })
+        let jp = UIAction(title: "일본어", handler: { _ in AppData.nationCode = .JP ; self.laungageSet() ; print("일본어") })
+        let es = UIAction(title: "스페인어", handler: { _ in AppData.nationCode = .ES ; self.laungageSet() ; print("스페인어") })
+        let fr = UIAction(title: "불어", handler: { _ in AppData.nationCode = .FR ; self.laungageSet() ; print("불어") })
+        let tr = UIAction(title: "터키어", handler: { _ in AppData.nationCode = .TR ; self.laungageSet() ; print("터키어") })
+        let th = UIAction(title: "태국", handler: { _ in AppData.nationCode = .TH ; self.laungageSet() ; print("태국") })
         let cancel = UIAction(title: "취소", attributes: .destructive, handler: { _ in print("취소") })
         let buttonMenu = UIMenu(title: "언어 선택", children: [en,kr, cn, jp, es, fr, tr, th, cancel])
         language_button.menu = buttonMenu
     }
     
     func laungageSet(){
-        " 지역(도시)를 검색해주세요".transText(nation: self.nationCode.rawValue, complete: { text in self.search_TextFiled.placeholder = text })
+        " 지역(도시)를 검색해주세요".transText(nation: AppData.nationCode.rawValue, complete: { text in self.search_TextFiled.placeholder = text })
         
         if let weatherInfo = weatherInfo {
-            weatherInfo.name.transText(nation: self.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
-            weatherInfo.weatherInfo[0].main.transText(nation: self.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
-            weatherInfo.weatherInfo[0].desc.transText(nation: self.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
-            "평균온도".transText(nation: self.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text })
-            "체감온도".transText(nation: self.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text })
-            "최고기온".transText(nation: self.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text })
-            "최저기온".transText(nation: self.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text })
+            weatherInfo.name.transText(nation: AppData.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
+            weatherInfo.weatherInfo[0].main.transText(nation: AppData.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
+            weatherInfo.weatherInfo[0].desc.transText(nation: AppData.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
+            "평균온도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weatherInfo.tempInfo.temp) + "℃"})
+            "체감온도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text + ":" + self.kelvinToCelsius(kValue: weatherInfo.tempInfo.feelsLike) + "℃"})
+            "최고기온".transText(nation: AppData.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weatherInfo.tempInfo.tempMax) + "℃"})
+            "최저기온".transText(nation: AppData.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weatherInfo.tempInfo.tempMin) + "℃"})
         }
         
+        
+        "지도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.tabBarItem.title = text })
         
     }
     
@@ -129,13 +134,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             
             self.weatherInfo = weather
             self.iconImageView.kf.setImage(with: weather.weatherInfo[0].iconURL)
-            weather.name.transText(nation: self.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
-            weather.weatherInfo[0].main.transText(nation: self.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
-            weather.weatherInfo[0].desc.transText(nation: self.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
-            "평균온도".transText(nation: self.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text })
-            "체감온도".transText(nation: self.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text })
-            "최고기온".transText(nation: self.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text })
-            "최저기온".transText(nation: self.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text })
+            weather.name.transText(nation: AppData.nationCode.rawValue, complete: { text in self.cityNameLabel.text = text })
+            weather.weatherInfo[0].main.transText(nation: AppData.nationCode.rawValue, complete: { text in self.mainDescriptionLabel.text = text })
+            weather.weatherInfo[0].desc.transText(nation: AppData.nationCode.rawValue, complete: { text in self.subDescriptionLabel.text = text })
+            "평균온도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.temperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weather.tempInfo.temp) + "℃"})
+            "체감온도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.feelsLikeLabel.text = text + ":" + self.kelvinToCelsius(kValue: weather.tempInfo.feelsLike) + "℃"})
+            "최고기온".transText(nation: AppData.nationCode.rawValue, complete: { text in self.maxTemperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weather.tempInfo.tempMax) + "℃"})
+            "최저기온".transText(nation: AppData.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weather.tempInfo.tempMin) + "℃"})
 
             if move {
                 let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon))
