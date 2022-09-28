@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct AppData {
+    static var nationCode : NationCode = .EN
+}
+
 enum NationCode : String{
     case KR = "ko"
     case EN = "en"
