@@ -37,6 +37,7 @@
 		B83A256C28C5C0B70023D4A5 /* FetchWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A256B28C5C0B70023D4A5 /* FetchWeatherData.swift */; };
 		B83A256E28C5C0E80023D4A5 /* WeartherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A256D28C5C0E80023D4A5 /* WeartherModel.swift */; };
 		B8CB86A728E2BB4200CE828B /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CB86A628E2BB4200CE828B /* TranslationModel.swift */; };
+		B8CB86A928E4246600CE828B /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CB86A828E4246600CE828B /* MainTabController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		B83A256B28C5C0B70023D4A5 /* FetchWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchWeatherData.swift; path = IOSGlobal/FetchWeatherData.swift; sourceTree = SOURCE_ROOT; };
 		B83A256D28C5C0E80023D4A5 /* WeartherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeartherModel.swift; sourceTree = "<group>"; };
 		B8CB86A628E2BB4200CE828B /* TranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationModel.swift; sourceTree = "<group>"; };
+		B8CB86A828E4246600CE828B /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		E527ED3F74EE1C65E479F98F /* Pods-IOSGlobal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSGlobal.release.xcconfig"; path = "Target Support Files/Pods-IOSGlobal/Pods-IOSGlobal.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +178,7 @@
 				B83A253A28C1953A0023D4A5 /* AppDelegate.swift */,
 				B83A253C28C1953A0023D4A5 /* SceneDelegate.swift */,
 				B83A253E28C1953A0023D4A5 /* ViewController.swift */,
+				B8CB86A828E4246600CE828B /* MainTabController.swift */,
 				B83A254028C1953A0023D4A5 /* Main.storyboard */,
 				B83A254328C1953C0023D4A5 /* Assets.xcassets */,
 				B83A254528C1953C0023D4A5 /* LaunchScreen.storyboard */,
@@ -354,6 +357,7 @@
 				66CAD65828E1728A00EC7512 /* TempInfoCd+CoreDataProperties.swift in Sources */,
 				667918D628D85F36002495CE /* WeatherListViewController.swift in Sources */,
 				B83A253B28C1953A0023D4A5 /* AppDelegate.swift in Sources */,
+				B8CB86A928E4246600CE828B /* MainTabController.swift in Sources */,
 				66CAD5E028DADCEE00EC7512 /* SpeechToTranslateViewModel.swift in Sources */,
 				66CAD65428E1728A00EC7512 /* WeatherCd+CoreDataProperties.swift in Sources */,
 				B83A253D28C1953A0023D4A5 /* SceneDelegate.swift in Sources */,
