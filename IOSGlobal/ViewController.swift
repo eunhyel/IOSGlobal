@@ -195,6 +195,31 @@ extension ViewController : GMSMapViewDelegate {
         //weatherInfo
 //        sttViewModel.sttModel.weatherCityForList.append(weatherInfo)
         CoreDataManager.shared.insertWeather(weather: weatherInfo)
+        let location = CLLocation(latitude: CLLocationDegrees(weatherInfo.coordInfo.lat), longitude: CLLocationDegrees(weatherInfo.coordInfo.lon))
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(location) { (placemarks, err) in
+            if let placemark = placemarks?.first {
+                print(#function, #line, placemark.timeZone!)
+//                print(#function, #line, placemark.country!)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone = placemark.timeZone!
+                dateFormatter.dateFormat = "yyyy-MM-dd a hh:mm"
+                let df = dateFormatter.string(from: Date())
+                print(#function, #line, df)
+            }
+        }
+//        let today = Date()
+//        let timezone = TimeZone.autoupdatingCurrent
+//        print(#function, #line, timezone.description)
+//        func localizedRepresentation() -> String {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.timeZone = timezone
+//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+//            return dateFormatter.string(from: today)
+//        }
+//        let localizedDate = localizedRepresentation()
+//        print(#function, #line, localizedDate)
         return true
     }
 }

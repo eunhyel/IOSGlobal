@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import CoreLocation
 
 class WeatherOfCity: UITableViewCell {
     
@@ -56,4 +57,12 @@ class WeatherOfCity: UITableViewCell {
             }
             .disposed(by: dBag)
     }
+    
+//    func getTimeZone(lat: Float, lon: Float) -> String {
+//        let location = CLLocation(latitude: CLLocationDegrees(lat), longitude: CLLocationDegrees(lon))
+//        let geoCoder = CLGeocoder()
+//        
+//        
+//        
+//    }
 }
