@@ -41,7 +41,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ymm-bm-BTx">
                                 <rect key="frame" x="257" y="33" width="124" height="54"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uT4-9z-fdi">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uT4-9z-fdi">
                                         <rect key="frame" x="0.0" y="33.5" width="29.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -76,10 +76,10 @@
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8gr-w3-vQx" firstAttribute="centerY" secondItem="Keq-vC-W32" secondAttribute="centerY" id="OIg-Df-ObZ"/>
-                            <constraint firstItem="8gr-w3-vQx" firstAttribute="leading" secondItem="Ymm-bm-BTx" secondAttribute="trailing" constant="20" id="VHK-ND-jLg"/>
-                            <constraint firstAttribute="trailing" secondItem="8gr-w3-vQx" secondAttribute="trailing" constant="20" symbolic="YES" id="Xoo-VQ-dQa"/>
+                            <constraint firstItem="8gr-w3-vQx" firstAttribute="leading" secondItem="Ymm-bm-BTx" secondAttribute="trailing" constant="4" id="VHK-ND-jLg"/>
+                            <constraint firstAttribute="trailing" secondItem="8gr-w3-vQx" secondAttribute="trailing" constant="8" id="Xoo-VQ-dQa"/>
                             <constraint firstItem="A2B-La-yeb" firstAttribute="centerY" secondItem="Keq-vC-W32" secondAttribute="centerY" id="fyN-fN-hhc"/>
-                            <constraint firstItem="A2B-La-yeb" firstAttribute="leading" secondItem="Keq-vC-W32" secondAttribute="leadingMargin" constant="20" id="g7z-LN-oy9"/>
+                            <constraint firstItem="A2B-La-yeb" firstAttribute="leading" secondItem="Keq-vC-W32" secondAttribute="leadingMargin" constant="8" id="g7z-LN-oy9"/>
                             <constraint firstItem="Ymm-bm-BTx" firstAttribute="centerY" secondItem="Keq-vC-W32" secondAttribute="centerY" id="kow-fP-Tc1"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -109,7 +109,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="sun.min.fill" catalog="system" width="128" height="123"/>
+        <image name="sun.min.fill" catalog="system" width="32" height="32"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

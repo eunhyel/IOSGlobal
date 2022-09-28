@@ -200,6 +200,7 @@ extension ViewController : GMSMapViewDelegate {
         getTimeZoneFromCoord(coord: weatherInfo.coordInfo) { mark in
             if let mark = mark {
                 CoreDataManager.shared.insertWeather(weather: self.weatherInfo, mark.timeZone?.identifier)
+                print(#function, #line, mark.timeZone?.identifier)
             }
         }
         return true

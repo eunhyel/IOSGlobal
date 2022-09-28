@@ -46,7 +46,9 @@ class WeatherOfCity: UITableViewCell {
         getTime(cData: data)
         let data = getWeather(cData: data)
         
-        cityName.text = data.name//"레이캬비크"
+        data.name.transText(nation: AppData.nationCode.rawValue, complete: { text in
+            self.cityName.text = text
+        })//"레이캬비크"
         timeDiffer.text = "9시간 늦음"
         ampm.text = "오전"
         self.clock.text = self.formatter.string(from: Date())
