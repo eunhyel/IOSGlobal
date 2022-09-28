@@ -192,6 +192,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             }
             .disposed(by: disposeBag)
     }
+    
+    
+    
+    
+    
+    func onTabSelected(isTheSame: Bool) {
+            print("Tab1ViewController onTabSelected")
+            //do something
+        }
 }
 
 extension ViewController : GMSMapViewDelegate {

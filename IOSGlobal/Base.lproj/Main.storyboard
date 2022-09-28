@@ -225,10 +225,10 @@
             </objects>
             <point key="canvasLocation" x="-277" y="-483"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main TabC Ontroller-->
         <scene sceneID="YHM-7H-oiD">
             <objects>
-                <tabBarController id="1Hy-RS-7mJ" sceneMemberID="viewController">
+                <tabBarController id="1Hy-RS-7mJ" customClass="MainTabCOntroller" customModule="IOSGlobal" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="centered" id="RTA-J8-UtH">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
