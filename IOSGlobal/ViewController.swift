@@ -117,7 +117,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         
         
         "지도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.tabBarItem.title = text })
-        
+        "날씨 리스트".transText(nation: AppData.nationCode.rawValue, complete: { text in self.tabBarController?.tabBar.items?[1].title = text })
     }
     
     func fetchData(_ cityName: String, _ move: Bool = true) {

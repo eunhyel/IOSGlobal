@@ -15,6 +15,8 @@ class WeatherListTableView: UITableView {
     }()
 //    var listDataSource: [Weather] = []
     
+    let header = WeatherOfCityHeader(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100))
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.delegate = self
@@ -29,9 +31,6 @@ class WeatherListTableView: UITableView {
     func initTableView() {
         backgroundColor = .systemBackground
         register(UINib(nibName: "WeatherOfCity", bundle: nil), forCellReuseIdentifier: WeatherOfCity.identifier)
-        
-        let header = WeatherOfCityHeader(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 100))
-        header.title.text = "컬렉션 내"
         self.tableHeaderView = header
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)

@@ -25,7 +25,7 @@ class WeatherOfCity: UITableViewCell {
     
     lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
+        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     var liveTimer: Timer? = nil

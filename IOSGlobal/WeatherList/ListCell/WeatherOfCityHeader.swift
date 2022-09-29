@@ -25,7 +25,6 @@ class WeatherOfCityHeader: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        title.text = "내 컬렉션"
         title.textColor = .label
         backgroundColor = .systemBackground
     }

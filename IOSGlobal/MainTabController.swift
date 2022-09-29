@@ -29,6 +29,7 @@ class MainTabCOntroller : UITabBarController, UITabBarControllerDelegate {
                     }
                     
                 }
+                "날씨리스트".transText(nation: AppData.nationCode.rawValue, complete: { text in view.listTableView.header.title.text = text })
                 view.listTableView.reloadData()
             }
         }
