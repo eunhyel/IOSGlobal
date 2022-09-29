@@ -24,9 +24,7 @@ class MainTabCOntroller : UITabBarController, UITabBarControllerDelegate {
                 print("Second tab")
                 view.listTableView.list.forEach { wcd in
                     FetchWeatherData().fetchData(cityName: wcd.name ?? "") { weather, error in
-                        guard let weather = weather else {
-                            return
-                        }
+                        guard let weather = weather else { return }
                         CoreDataManager.shared.update(object: wcd, weather: weather)
                     }
                     

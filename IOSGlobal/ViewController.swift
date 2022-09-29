@@ -47,6 +47,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         fetchData("Gwangju", false)
+        self.tabBarItem.image = UIImage(named: "map_icon")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         self.tabBarItem.selectedImage = UIImage(named: "map_icon")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
@@ -206,7 +207,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
-        CoreDataManager.shared.insertWeather(weather: self.weatherInfo)
+//        CoreDataManager.shared.insertWeather(weather: self.weatherInfo)
+        var list = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
+        if let idx = list.firstIndex(where: { weatherInList in
+            weatherInList.name == self.weatherInfo.name
+        }) {
+            CoreDataManager.shared.update(object: list[idx], weather: self.weatherInfo)
+        } else {
+            CoreDataManager.shared.insertWeather(weather: self.weatherInfo)
+        }
         return true
     }
     

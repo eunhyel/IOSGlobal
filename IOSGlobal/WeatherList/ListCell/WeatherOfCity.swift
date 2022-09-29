@@ -25,7 +25,7 @@ class WeatherOfCity: UITableViewCell {
     
     lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "a hh:mm"
+        formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
     var liveTimer: Timer? = nil
@@ -53,16 +53,17 @@ class WeatherOfCity: UITableViewCell {
         weather.kf.setImage(with: data.weatherInfo[0].iconURL)
         temperature.text = "\(String(format: "%.0f", data.tempInfo.temp - 273.15))℃"
         
-        bind()
+        bind(core: data)
         
     }
     
-    func bind() {
+    func bind(core: Weather) {
         self.addGestureRecognizer(tap)
         tap.rx.event
             .bind { [weak self] _ in
                 guard let self = self else { return }
-                print("\(self.cityName.text ?? "") 선택 ! ")
+                print("\(core.coordInfo.lat) | \(core.coordInfo.lon)")
+                self.goToCity(info: core)
                 // 지도 탭바에 데이터 전달
             }
             .disposed(by: dBag)
@@ -102,17 +103,23 @@ class WeatherOfCity: UITableViewCell {
         }
         
         formatter.timeZone = TimeZoneLocate.timeZoneWithLocation(CLLocation(latitude: CLLocationDegrees(coordInfo.lat), longitude: CLLocationDegrees(coordInfo.lon)))
-        liveTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateClockLabel), userInfo: nil, repeats: true)
+        liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateClockLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(liveTimer!, forMode: .common)
         
-        ampm.text = formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
-        clock.text = formatter.string(from: Date()).components(separatedBy: " ")[1]
+        ampm.text = ""//formatter.string(from: Date())
+        clock.text = formatter.string(from: Date())
         
         
     }
     
     @objc func updateClockLabel() {
-        ampm.text = formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
-        clock.text = formatter.string(from: Date()).components(separatedBy: " ")[1]
+        ampm.text = ""//formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
+        clock.text = formatter.string(from: Date())
+    }
+    
+    func goToCity(info: Weather) {
+        let view = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController as? UITabBarController
+        view?.selectedIndex = 0
+        (view?.selectedViewController as? ViewController)?.fetchData(info.name)
     }
 }
