@@ -56,18 +56,12 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="A2B-La-yeb">
-                                <rect key="frame" x="16" y="43.5" width="48.5" height="33"/>
+                                <rect key="frame" x="16" y="49.5" width="67" height="21.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="도시 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feA-Kj-p3f">
-                                        <rect key="frame" x="0.0" y="0.0" width="48.5" height="16"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="67" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="몇시간 늦음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0xr-Wi-csU">
-                                        <rect key="frame" x="0.0" y="23" width="37.5" height="10"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                        <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -75,6 +69,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Ymm-bm-BTx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="A2B-La-yeb" secondAttribute="trailing" id="8Jy-pn-gCm"/>
                             <constraint firstItem="8gr-w3-vQx" firstAttribute="centerY" secondItem="Keq-vC-W32" secondAttribute="centerY" id="OIg-Df-ObZ"/>
                             <constraint firstItem="8gr-w3-vQx" firstAttribute="leading" secondItem="Ymm-bm-BTx" secondAttribute="trailing" constant="4" id="VHK-ND-jLg"/>
                             <constraint firstAttribute="trailing" secondItem="8gr-w3-vQx" secondAttribute="trailing" constant="8" id="Xoo-VQ-dQa"/>
@@ -102,7 +97,6 @@
                 <outlet property="cityName" destination="feA-Kj-p3f" id="2FU-Bv-sjY"/>
                 <outlet property="clock" destination="ghS-A1-Owu" id="utm-qo-x2t"/>
                 <outlet property="temperature" destination="oXp-Iz-NxG" id="4AA-oq-UFh"/>
-                <outlet property="timeDiffer" destination="0xr-Wi-csU" id="8K0-80-qOB"/>
                 <outlet property="weather" destination="vQQ-iz-32t" id="D1G-Xa-Zms"/>
             </connections>
             <point key="canvasLocation" x="-246.92307692307691" y="-30.924170616113742"/>
@@ -110,9 +104,6 @@
     </objects>
     <resources>
         <image name="sun.min.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -41,7 +41,7 @@ class CoreDataManager {
     
     
     @discardableResult
-    func insertWeather(weather: Weather, _ timezoneIdentifier: String? = nil) -> Bool {
+    func insertWeather(weather: Weather) -> Bool {
 //        let entity = NSEntityDescription.entity(forEntityName: "WeatherCd", in: context)
 //        let object = NSManagedObject(entity: entity, insertInto: context)
         let object = NSEntityDescription.insertNewObject(forEntityName: "WeatherCd", into: context)
@@ -86,7 +86,7 @@ class CoreDataManager {
     }
     
     @discardableResult
-    func update(object: NSManagedObject, weather: Weather, _ timezoneIdentifier: String? = nil) -> Bool {
+    func update(object: NSManagedObject, weather: Weather) -> Bool {
         object.setValue(weather.name, forKey: "name")
         
         let tempInfo = NSEntityDescription.insertNewObject(forEntityName: "TempInfoCd", into: context) as! TempInfoCd
@@ -99,7 +99,7 @@ class CoreDataManager {
         let coordInfo = NSEntityDescription.insertNewObject(forEntityName: "CoordInfoCd", into: context) as! CoordInfoCd
         coordInfo.lon = weather.coordInfo.lon
         coordInfo.lat = weather.coordInfo.lat
-        coordInfo.timezone = timezoneIdentifier
+//        coordInfo.timezone = timezoneIdentifier
         coordInfo.weatherCd = object as? WeatherCd
         
         let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd

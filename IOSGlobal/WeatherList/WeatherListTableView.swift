@@ -37,36 +37,6 @@ class WeatherListTableView: UITableView {
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
-    func getWeathers() -> [Weather] {
-//        let fetchAllResult = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
-//        return fetchAllResult
-//        (list as! [WeatherCd])
-            return list.map { fetchs in
-                
-                var weatherInfoArr: [WeatherInfo] = []
-                let fetchs_set = fetchs.weatherInfo!
-                // let fetchs_arr = Array(fetchs_set)
-                let fetchs_arr = NSMutableArray(array: fetchs_set.array) as! [WeatherInfoCd]
-                fetchs_arr.forEach { fetInfo in // WeatherInfoCd
-                    let winfo = WeatherInfo(id: Int(fetInfo.id),
-                                            main: String(fetInfo.main ?? ""),
-                                            desc: String(fetInfo.desc ?? ""),
-                                            icon: fetInfo.icon)
-                    weatherInfoArr.append(winfo)
-                }
-                
-                let _tempInfo = TempInfo(temp: fetchs.tempInfo!.temp,
-                                         feelsLike: fetchs.tempInfo!.feelsLike,
-                                         tempMin: fetchs.tempInfo!.tempMin,
-                                         tempMax: fetchs.tempInfo!.tempMax)
-                let _coordInfo = CoordInfo(lon: fetchs.coordInfo?.lon ?? 0.0, lat: fetchs.coordInfo?.lat ?? 0.0)
-                
-                return Weather(weatherInfo: weatherInfoArr,
-                               tempInfo: _tempInfo,
-                               coordInfo: _coordInfo,
-                               name: fetchs.name ?? "")
-        }
-    }
     
     @objc func refresh() {
         reloadData()

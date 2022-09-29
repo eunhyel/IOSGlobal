@@ -27,7 +27,7 @@ class MainTabCOntroller : UITabBarController, UITabBarControllerDelegate {
                         guard let weather = weather else {
                             return
                         }
-                        CoreDataManager.shared.update(object: wcd, weather: weather, wcd.coordInfo?.timezone)
+                        CoreDataManager.shared.update(object: wcd, weather: weather)
                     }
                     
                 }

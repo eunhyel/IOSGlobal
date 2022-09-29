@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 import CoreLocation
+import TimeZoneLocate
 
 class WeatherOfCity: UITableViewCell {
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var cityName: UILabel!
-    @IBOutlet weak var timeDiffer: UILabel!
     @IBOutlet weak var ampm: UILabel!
     @IBOutlet weak var clock: UILabel!
     @IBOutlet weak var weather: UIImageView!
@@ -50,9 +50,6 @@ class WeatherOfCity: UITableViewCell {
         data.name.transText(nation: AppData.nationCode.rawValue, complete: { text in
             self.cityName.text = text
         })//"레이캬비크"
-        timeDiffer.text = "9시간 늦음"
-//        ampm.text = "오전"
-//        self.clock.text = self.formatter.string(from: Date())
         weather.kf.setImage(with: data.weatherInfo[0].iconURL)
         temperature.text = "\(String(format: "%.0f", data.tempInfo.temp - 273.15))℃"
         
@@ -104,22 +101,10 @@ class WeatherOfCity: UITableViewCell {
             return
         }
         
-        if let timezoneIdentifier = coordInfo.timezone {
-            formatter.timeZone = TimeZone(identifier: timezoneIdentifier)
-            
-        } else {
-            FetchWeatherData().getTimeZoneFromCoord(coord: CoordInfo(lon: coordInfo.lon, lat: coordInfo.lat) ) { mark in
-                self.formatter.timeZone = TimeZone(abbreviation: mark?.timeZone?.abbreviation() ?? "")
-            }
-            
-        }
+        formatter.timeZone = TimeZoneLocate.timeZoneWithLocation(CLLocation(latitude: CLLocationDegrees(coordInfo.lat), longitude: CLLocationDegrees(coordInfo.lon)))
         liveTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateClockLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(liveTimer!, forMode: .common)
         
-        print(
-            formatter.string(from: Date()).components(separatedBy: " ")[0],
-            formatter.string(from: Date()).components(separatedBy: " ")[1]
-        )
         ampm.text = formatter.string(from: Date()).components(separatedBy: " ")[0].lowercased()
         clock.text = formatter.string(from: Date()).components(separatedBy: " ")[1]
         
