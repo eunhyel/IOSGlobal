@@ -143,12 +143,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             "최저기온".transText(nation: AppData.nationCode.rawValue, complete: { text in self.minTemperatureLabel.text = text + ":" + self.kelvinToCelsius(kValue: weather.tempInfo.tempMin) + "℃"})
 
             if move {
-                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon))
-                self.marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(weather.coordInfo.lat), longitude: CLLocationDegrees(weather.coordInfo.lon)) // 마커의 위치를 현재 위도, 경도로 설정
-                let newCamera = GMSCameraPosition.camera(withTarget: position,
-                                                         zoom: self.gooogleMap.camera.zoom + 1)
-                let update = GMSCameraUpdate.setCamera(newCamera)
-                self.gooogleMap.moveCamera(update)
+                self.PostsitionMove(CLLocationDegrees(weather.coordInfo.lat), CLLocationDegrees(weather.coordInfo.lon))
             }
         }
     }
@@ -196,11 +191,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     
     
     
+    @IBAction func myPotsition(_ sender: Any) {
+        PostsitionMove(locationManager.location?.coordinate.latitude ?? 0, locationManager.location?.coordinate.longitude ?? 0)
+    }
     
-    func onTabSelected(isTheSame: Bool) {
-            print("Tab1ViewController onTabSelected")
-            //do something
-        }
+    func PostsitionMove(_ loc : CLLocationDegrees , _ lon : CLLocationDegrees){
+        let position = CLLocationCoordinate2D(latitude: loc, longitude: lon)
+        self.marker.position = position
+        let newCamera = GMSCameraPosition.camera(withTarget: position,
+                                                 zoom: self.gooogleMap.camera.zoom + 1)
+        let update = GMSCameraUpdate.setCamera(newCamera)
+        self.gooogleMap.moveCamera(update)
+    }
 }
 
 extension ViewController : GMSMapViewDelegate {
