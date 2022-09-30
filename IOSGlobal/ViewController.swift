@@ -47,6 +47,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         fetchData("Gwangju", false)
+        self.tabBarItem.image = UIImage(named: "map_icon")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         self.tabBarItem.selectedImage = UIImage(named: "map_icon")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
@@ -116,7 +117,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         
         
         "지도".transText(nation: AppData.nationCode.rawValue, complete: { text in self.tabBarItem.title = text })
-        
+        "날씨 리스트".transText(nation: AppData.nationCode.rawValue, complete: { text in self.tabBarController?.tabBar.items?[1].title = text })
     }
     
     func fetchData(_ cityName: String, _ move: Bool = true) {
@@ -208,34 +209,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
 extension ViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("마커 위치 리스트에 추가")
-        //weatherInfo
-//        sttViewModel.sttModel.weatherCityForList.append(weatherInfo)
-        CoreDataManager.shared.insertWeather(weather: weatherInfo)
-        let location = CLLocation(latitude: CLLocationDegrees(weatherInfo.coordInfo.lat), longitude: CLLocationDegrees(weatherInfo.coordInfo.lon))
-        let geoCoder = CLGeocoder()
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, err) in
-            if let placemark = placemarks?.first {
-                print(#function, #line, placemark.timeZone!)
-//                print(#function, #line, placemark.country!)
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.timeZone = placemark.timeZone!
-                dateFormatter.dateFormat = "yyyy-MM-dd a hh:mm"
-                let df = dateFormatter.string(from: Date())
-                print(#function, #line, df)
-            }
+//        CoreDataManager.shared.insertWeather(weather: self.weatherInfo)
+        var list = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
+        if let idx = list.firstIndex(where: { weatherInList in
+            weatherInList.name == self.weatherInfo.name
+        }) {
+            CoreDataManager.shared.update(object: list[idx], weather: self.weatherInfo)
+        } else {
+            CoreDataManager.shared.insertWeather(weather: self.weatherInfo)
         }
-//        let today = Date()
-//        let timezone = TimeZone.autoupdatingCurrent
-//        print(#function, #line, timezone.description)
-//        func localizedRepresentation() -> String {
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.timeZone = timezone
-//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-//            return dateFormatter.string(from: today)
-//        }
-//        let localizedDate = localizedRepresentation()
-//        print(#function, #line, localizedDate)
         return true
     }
+    
 }

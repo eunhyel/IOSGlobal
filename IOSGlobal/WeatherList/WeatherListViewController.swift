@@ -16,7 +16,6 @@ class WeatherListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        listTableView.listDataSource = listTableView.getWeathers()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -8,6 +8,8 @@ target 'IOSGlobal' do
   pod 'GoogleMaps', '4.0.0'
   pod 'GooglePlaces', '4.0.0'
   pod 'googleapis', :path => '.'
+  pod 'TimeZoneLocate'
+
   #RxXXXX
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 class CoreDataManager {
     
@@ -57,6 +58,7 @@ class CoreDataManager {
         let coordInfo = NSEntityDescription.insertNewObject(forEntityName: "CoordInfoCd", into: context) as! CoordInfoCd
         coordInfo.lon = weather.coordInfo.lon
         coordInfo.lat = weather.coordInfo.lat
+//        coordInfo.timezone = timezoneIdentifier
         coordInfo.weatherCd = object as? WeatherCd
         
         let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd
@@ -81,6 +83,44 @@ class CoreDataManager {
             return false
         }
         
+    }
+    
+    @discardableResult
+    func update(object: NSManagedObject, weather: Weather) -> Bool {
+        object.setValue(weather.name, forKey: "name")
+        
+        let tempInfo = NSEntityDescription.insertNewObject(forEntityName: "TempInfoCd", into: context) as! TempInfoCd
+        tempInfo.temp = weather.tempInfo.temp
+        tempInfo.feelsLike = weather.tempInfo.feelsLike
+        tempInfo.tempMin = weather.tempInfo.tempMin
+        tempInfo.tempMax = weather.tempInfo.tempMax
+        tempInfo.weatherCd = object as? WeatherCd
+        
+        let coordInfo = NSEntityDescription.insertNewObject(forEntityName: "CoordInfoCd", into: context) as! CoordInfoCd
+        coordInfo.lon = weather.coordInfo.lon
+        coordInfo.lat = weather.coordInfo.lat
+//        coordInfo.timezone = timezoneIdentifier
+        coordInfo.weatherCd = object as? WeatherCd
+        
+        let weatherInfoCd = NSEntityDescription.insertNewObject(forEntityName: "WeatherInfoCd", into: context) as! WeatherInfoCd
+        var setWeatherInfoCd = Set<WeatherInfoCd>()
+        
+        weather.weatherInfo.forEach { winfo in
+            weatherInfoCd.id = Int64(winfo.id)
+            weatherInfoCd.main = winfo.main
+            weatherInfoCd.desc = winfo.desc
+            weatherInfoCd.iconURL = winfo.iconURL
+            setWeatherInfoCd.insert(weatherInfoCd)
+        }
+        _ = NSOrderedSet(set: setWeatherInfoCd)
+        weatherInfoCd.weatherCd = object as? WeatherCd
+        do {
+            try context.save()
+            return true
+        } catch {
+            context.rollback()
+            return false
+        }
     }
     
     /// fetch -> delete

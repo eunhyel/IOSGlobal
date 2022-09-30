@@ -13,63 +13,29 @@ class WeatherListTableView: UITableView {
     var list: [WeatherCd] = {
         return CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest()) as! [WeatherCd]
     }()
-    var listDataSource: [Weather] = []
+//    var listDataSource: [Weather] = []
+    
+    let header = WeatherOfCityHeader(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100))
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.delegate = self
         self.dataSource = self
         initTableView()
-        let fetchAllResult = getWeathers()
-        print("root0 === \(fetchAllResult)")
     }
     
     override func reloadData() {
         list = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
-        listDataSource = getWeathers()
         super.reloadData()
     }
     func initTableView() {
         backgroundColor = .systemBackground
         register(UINib(nibName: "WeatherOfCity", bundle: nil), forCellReuseIdentifier: WeatherOfCity.identifier)
-        
-        let header = WeatherOfCityHeader(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 100))
-        header.title.text = "컬렉션 내"
         self.tableHeaderView = header
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
-    func getWeathers() -> [Weather] {
-//        let fetchAllResult = CoreDataManager.shared.fetch(request: WeatherCd.fetchRequest())
-//        return fetchAllResult
-//        (list as! [WeatherCd])
-            return list.map { fetchs in
-                
-                var weatherInfoArr: [WeatherInfo] = []
-                let fetchs_set = fetchs.weatherInfo!
-                // let fetchs_arr = Array(fetchs_set)
-                let fetchs_arr = NSMutableArray(array: fetchs_set.array) as! [WeatherInfoCd]
-                fetchs_arr.forEach { fetInfo in // WeatherInfoCd
-                    let winfo = WeatherInfo(id: Int(fetInfo.id),
-                                            main: String(fetInfo.main ?? ""),
-                                            desc: String(fetInfo.desc ?? ""),
-                                            icon: fetInfo.icon)
-                    weatherInfoArr.append(winfo)
-                }
-                
-                let _tempInfo = TempInfo(temp: fetchs.tempInfo!.temp,
-                                         feelsLike: fetchs.tempInfo!.feelsLike,
-                                         tempMin: fetchs.tempInfo!.tempMin,
-                                         tempMax: fetchs.tempInfo!.tempMax)
-                let _coordInfo = CoordInfo(lon: fetchs.coordInfo?.lon ?? 0.0, lat: fetchs.coordInfo?.lat ?? 0.0)
-                
-                return Weather(weatherInfo: weatherInfoArr,
-                               tempInfo: _tempInfo,
-                               coordInfo: _coordInfo,
-                               name: fetchs.name ?? "")
-        }
-    }
     
     @objc func refresh() {
         reloadData()
@@ -86,7 +52,8 @@ extension WeatherListTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let myCityCell = tableView.dequeueReusableCell(withIdentifier: WeatherOfCity.identifier, for: indexPath) as? WeatherOfCity {
-            myCityCell.configData(listDataSource[indexPath.row])
+            myCityCell.getTime(cData: list[indexPath.row])
+            myCityCell.configData(list[indexPath.row])
             return myCityCell
         }
         return UITableViewCell()

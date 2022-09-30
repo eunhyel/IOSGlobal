@@ -45,7 +45,7 @@
                             <constraint firstItem="SDv-W1-E9O" firstAttribute="top" secondItem="NlJ-sz-hP7" secondAttribute="top" id="giP-h0-vR4"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title=" 날씨리스트" selectedImage="sad_cloud_dark.png" id="fUe-lz-C1X"/>
+                    <tabBarItem key="tabBarItem" title=" 날씨리스트" image="sunny" selectedImage="sunny" id="fUe-lz-C1X"/>
                     <connections>
                         <outlet property="listContainer" destination="SCw-cs-K0h" id="QIz-5N-gHj"/>
                         <outlet property="listTableView" destination="SDv-W1-E9O" id="RK8-VF-wKl"/>
@@ -248,7 +248,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="systemBackgroundColor"/>
-                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="6wH-hY-Mes" kind="relationship" relationship="viewControllers" id="weE-Au-v28"/>
@@ -262,7 +262,7 @@
     </scenes>
     <resources>
         <image name="default_marker.png" width="26" height="41"/>
-        <image name="sad_cloud_dark.png" width="144" height="96"/>
+        <image name="sunny" width="30" height="30"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
